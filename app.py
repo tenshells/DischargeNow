@@ -19,9 +19,9 @@ def update_battery_label():
     battery_percent = int(psutil.sensors_battery().percent)
     isCharging = psutil.sensors_battery()[2]
     if isCharging:
-        label1.config(text=f"Battery: {battery_percent}%, Charging", fg="green")
+        status.config(text=f"Battery: {battery_percent}%, Charging", fg="green")
     else:
-        label1.config(text=f"Battery: {battery_percent}%, Discharging", fg="red")
+        status.config(text=f"Battery: {battery_percent}%, Discharging", fg="red")
         
     # Check if battery is below discharging threshold
     if battery_percent <= charging_threshold and not(isCharging):
@@ -35,29 +35,29 @@ def update_battery_label():
 def show_popup(title, message):
     messagebox.showinfo(title, message)
 
-def update_label2(value):
-    label2.config(text=f"Report to Plug Charger at {value}%", fg="blue")
+def plug_label(value):
+    report_plug.config(text=f"Report to Plug Charger at {value}%", fg="blue")
     global charging_threshold
     charging_threshold=int(value)
 
-def update_label3(value):
-    label3.config(text=f"Report to Unplug Charger at {value}%", fg="orange")
+def unplug_label(value):
+    report_unplug.config(text=f"Report to Unplug Charger at {value}%", fg="orange")
     global discharging_threshold
     discharging_threshold=int(value)
 
-label1 = tk.Label(frame, text="", font=("Arial", 14), bg="lightblue")
-label1.pack()
+status = tk.Label(frame, text="", font=("Arial", 14), bg="lightblue")
+status.pack()
 
-slider1 = tk.Scale(frame, from_=0, to=100, variable=0, orient=tk.HORIZONTAL, length=300, command=update_label2)
-slider1.pack(pady=20)
-label2 = tk.Label(frame, text="Report Charging Threshold", font=("Arial", 12))
-label2.pack()
+charge_slider = tk.Scale(frame, from_=0, to=100, variable=0, orient=tk.HORIZONTAL, length=300, command=plug_label)
+charge_slider.pack(pady=20)
+report_plug = tk.Label(frame, text="Report Charging Threshold", font=("Arial", 12))
+report_plug.pack()
 
 default_value = tk.DoubleVar(value=100)
-slider2 = tk.Scale(frame, from_=0, to=100, variable=default_value,orient=tk.HORIZONTAL, length=300, command=update_label3)
-slider2.pack(pady=20)
-label3 = tk.Label(frame, text="Report Discharging Threshold", font=("Arial", 12))
-label3.pack()
+discharge_slider = tk.Scale(frame, from_=0, to=100, variable=default_value,orient=tk.HORIZONTAL, length=300, command=unplug_label)
+discharge_slider.pack(pady=20)
+report_unplug = tk.Label(frame, text="Report Discharging Threshold", font=("Arial", 12))
+report_unplug.pack()
 
 # Initial updates
 update_battery_label()
