@@ -1,5 +1,5 @@
 
-from tkinter import ttk, DoubleVar, Frame, Label, HORIZONTAL, X as tk_X
+from tkinter import ttk, DoubleVar, Frame, Label, HORIZONTAL, X as tk_X, Scale
 from .battery import BatteryMonitor
 from .alerts import AlertManager
 from config import config
@@ -31,31 +31,31 @@ class BatteryMonitorApp:
         self.status.pack()
         
         # Charging threshold slider
-        ttk.Label(self.frame, text="Set Charging Threshold:", background="lightblue").pack()
-        self.charge_slider = ttk.Scale(
-            self.frame, 
-            from_=0, 
-            to=100, 
+        self.charge_slider = Scale(
+            self.frame,
+            from_=0,
+            to=100,
             variable=self.charging_threshold,
-            orient=HORIZONTAL, 
+            orient=HORIZONTAL,
+            length=300,
             command=lambda v: self.update_plug_label(float(v))
         )
-        self.charge_slider.pack(pady=10, padx=20, fill=tk_X)
+        self.charge_slider.pack(pady=20)
         
         self.report_plug = Label(self.frame, text="Report Charging Threshold", font=("Arial", 12))
         self.report_plug.pack()
         
         # Discharging threshold slider
-        ttk.Label(self.frame, text="Set Discharging Threshold:", background="lightblue").pack()
-        self.discharge_slider = ttk.Scale(
-            self.frame, 
-            from_=0, 
-            to=100, 
+        self.discharge_slider = Scale(
+            self.frame,
+            from_=0,
+            to=100,
             variable=self.discharging_threshold,
-            orient=HORIZONTAL, 
+            orient=HORIZONTAL,
+            length=300,
             command=lambda v: self.update_unplug_label(float(v))
         )
-        self.discharge_slider.pack(pady=10, padx=20, fill=tk_X)
+        self.discharge_slider.pack(pady=20)
         
         self.report_unplug = Label(self.frame, text="Report Discharging Threshold", font=("Arial", 12))
         self.report_unplug.pack()
